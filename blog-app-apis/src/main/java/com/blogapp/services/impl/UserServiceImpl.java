@@ -6,6 +6,8 @@ import com.blogapp.payloads.UserDto;
 import com.blogapp.repositories.UserRepository;
 import com.blogapp.services.UserService;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -16,6 +18,8 @@ import java.util.stream.Collectors;
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
+
+    private final ModelMapper modelMapper;
     @Override
     public UserDto createUser(UserDto userDto) {
 
@@ -75,23 +79,28 @@ public class UserServiceImpl implements UserService {
 
     //convert User Dto to User Entity
     private User dtoToUser(UserDto userDto){
-        User user = new User();
-        user.setUserId(userDto.getId());
-        user.setUserName(userDto.getUserName());
-        user.setEmail(userDto.getEmail());
-        user.setPassword(userDto.getPassword());
-        user.setAbout(userDto.getAbout());
+//        User user = new User();
+//        user.setUserId(userDto.getId());
+//        user.setUserName(userDto.getUserName());
+//        user.setEmail(userDto.getEmail());
+//        user.setPassword(userDto.getPassword());
+//        user.setAbout(userDto.getAbout());
+
+        //use model mapper to map object
+        User user = modelMapper.map(userDto, User.class);
         return user;
     }
 
     //convert User Entity to User Dto
     private UserDto userToDto(User user){
-        UserDto userDto = UserDto.of()
-                            .id(user.getUserId())
-                            .userName(user.getUserName())
-                            .email(user.getEmail())
-                            .password(user.getPassword())
-                            .about(user.getAbout()).build();
+//        UserDto userDto = UserDto.of()
+//                            .id(user.getUserId())
+//                            .userName(user.getUserName())
+//                            .email(user.getEmail())
+//                            .password(user.getPassword())
+//                            .about(user.getAbout()).build();
+
+        UserDto userDto = modelMapper.map(user, UserDto.class);
         return userDto;
     }
 }
