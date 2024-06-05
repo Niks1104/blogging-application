@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.Set;
+
 @Entity
 @Table(name = "categories")
 @NoArgsConstructor
@@ -19,4 +21,7 @@ public class Category {
     private String categoryTitle;
     @Column(name = "description")
     private String categoryDescription;
+
+    @OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    private Set<Post> posts;
 }
